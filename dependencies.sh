@@ -1,30 +1,31 @@
-## Download all dependencies and compile it
-##
-rm -rf libs
-mkdir -p deps
+## Download all dependencies and build them
+
+mkdir -p dependencies
 mkdir -p libs
 
-## CMOCKA
-wget https://cmocka.org/files/1.1/cmocka-1.1.0.tar.xz -P deps/
-cd deps
-tar -xvf cmocka-1.1.0.tar.xz
-cd cmocka-1.1.0
+## GTest v1.8
+mkdir -p dependencies/gtest
+mkdir -p libs/gtest
+cd dependencies/gtest
 
-## Define static mode on
-echo 'option(WITH_STATIC_LIB "Build with a static library" ON)' >> DefineOptions.cmake
+## Only downloads if file is not found
+if [ ! -f release-1.8.0.tar.gz ]; then
+	wget https://github.com/google/googletest/archive/release-1.8.0.tar.gz
+fi
+## Extract it
+tar -xvf release-1.8.0.tar.gz
+cd googletest-release-1.8.0/googletest
+
+## Build it
 mkdir build
 cd build
-cmake ..
-make
+cmake .. && make
 
-cd ../../../libs
-mkdir -p cmocka
-pwd
-cp ../deps/cmocka-1.1.0/build/src/libcmocka.so ./cmocka/libcmocka.so
-cp ../deps/cmocka-1.1.0/build/src/libcmocka.so.0 ./cmocka/libcmocka.so.0
-cp ../deps/cmocka-1.1.0/build/src/libcmocka.so.0 ./cmocka/libcmocka.so.0.4.0
-cp -r ../deps/cmocka-1.1.0/include ./cmocka/include
+## Copy important files
+cp libgtest.a ../../../../../libs/gtest/
+cp libgtest_main.a ../../../../../libs/gtest/
+cp -r ../include ../../../../../libs/gtest/
 
-
-## Remove deps
-rm -r ../deps
+## Clean dependencies temporary folder
+cd ../../../../../
+rm -r dependencies/

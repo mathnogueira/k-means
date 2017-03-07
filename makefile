@@ -9,9 +9,10 @@ rwildcard=$(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst 
 
 ## Compiler configuration
 CC				= gcc -ansi
+CPP				= g++ -lpthread
 CFLAGS			= -fPIC -O0
 LIBS			= 
-LIBS_T			= -l:libcmocka.so -l:libcmocka.so.0 -l:libcmocka.so.0.4.0
+LIBS_T			= -l:libgtest_main.a -l:libgtest.a
 
 ## Project configuration
 INCLUDE			= ./include
@@ -58,11 +59,11 @@ output_dirs:
 tests: output_dirs build_tests
 
 build_tests: ${OUTFILES_T}
-	${CC} $^ -L./libs/cmocka ${LIBS_T} -o bin/tests
+	${CPP} $^ -L./libs/gtest ${LIBS_T} -o bin/tests
 
 ## Rule for compiling the tests
 ${OUTPUT_T}/%.o: ${TESTS}/%.c
-	${CC} -c $^ -I${INCLUDE} -I./libs/cmocka/include -o $@
+	${CPP} -c $^ -I${INCLUDE} -I./libs/gtest/include -o $@
 	
 
 ## Clear Project
