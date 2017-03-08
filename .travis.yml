@@ -2,7 +2,6 @@
 language: c
 # Compiler selection
 compiler:
-  - g++
   - gcc
   - clang
 
