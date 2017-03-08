@@ -1,4 +1,4 @@
-deps/
+.dependencies/
 libs/
 build/
 bin/
