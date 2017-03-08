@@ -34,6 +34,7 @@ TEST(GenericList, InsertElementAndRetrieveIt)
 	void * resultPointer = (void*) KM_List_Remove(list, 0);
 	if (resultPointer != NULL)
 		FAIL();
+	KM_List_Destroy(list);
 }
 
 TEST(GenericList, RetrieveElement)
@@ -48,4 +49,5 @@ TEST(GenericList, RetrieveElement)
 	ASSERT_EQ(result, j);
 	result = *((int*) KM_List_Get(list, 0));
 	ASSERT_EQ(result, i);
+	KM_List_Destroy(list);
 }

@@ -9,7 +9,7 @@
  * @param y y coordinate.
  * @return pointer to the point.
  */
-struct KM_Point* Point(double x, double y)
+struct KM_Point* KM_Point_Create(double x, double y)
 {
 	struct KM_Point *point = (struct KM_Point*) malloc(sizeof(struct KM_Point));
 	point->x = x;
@@ -22,7 +22,7 @@ struct KM_Point* Point(double x, double y)
  *
  * @param point point to be destroyed.
  */
-void Free_Point(struct KM_Point *point)
+void KM_Point_Destroy(struct KM_Point *point)
 {
 	free(point);
 }
