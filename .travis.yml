@@ -1,0 +1,27 @@
+# Enable C++ support
+language: c
+# Compiler selection
+compiler:
+  - g++
+  - gcc
+  - clang
+
+os:
+    - linux
+    - osx
+
+# Build steps
+script:
+  - ./dependencies.sh
+  - make
+  - make tests
+  - ./bin/tests
+  # - ./mips ../tests/programs/divide.asm
+  # - ./mips ../tests/programs/jump.asm
+  # - ./mips ../tests/programs/logica.asm
+  # - ./mips ../tests/programs/multiplica.asm
+  # - ./mips ../tests/programs/shift.asm
+  # - ./mips ../tests/programs/test.asm
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
