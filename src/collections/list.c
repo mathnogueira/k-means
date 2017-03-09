@@ -110,7 +110,6 @@ void* KM_List_Remove(struct KM_List *container, unsigned int position)
 		if (container->size <= position)
 			return NULL;
 		struct KM_List_Node *current = container->head;
-		void *element = NULL;
 		unsigned int cPos = 0;
 		while (cPos++ < position) {
 			current = current->next;

@@ -10,7 +10,7 @@ rwildcard=$(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst 
 ## Compiler configuration
 CC				= gcc -ansi
 CPP				= g++ -lpthread
-CFLAGS			= -fPIC -O0 -ggdb
+CFLAGS			= -fPIC -O0 -ggdb -Wall
 LIBS			= 
 LIBS_T			= -l:libgtest_main.a -l:libgtest.a -l:libkmeans.a -lpthread
 
@@ -62,11 +62,11 @@ output_dirs:
 tests: output_dirs build_tests
 
 build_tests: ${OUTFILES_T}
-	${CPP} $^ -L./libs/gtest -L./bin ${LIBS_T} -o bin/tests ${CFLAGS}
+	${CPP} $^ -L./libs/gtest -L./bin ${LIBS_T} -o bin/tests
 
 ## Rule for compiling the tests
 ${OUTPUT_T}/%.o: ${TESTS}/%.c
-	${CPP} -c $^ -I${INCLUDE} -I./libs/gtest/include -o $@ ${CFLAGS}
+	${CPP} -c $^ -I${INCLUDE} -I./libs/gtest/include -o $@
 
 ## Clear Project
 clean:
