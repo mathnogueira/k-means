@@ -37,3 +37,31 @@ TEST(KMeans, CreateClusters)
 
 	KMeans_Destroy(kmeans);
 }
+
+TEST(KMeans, GetClosestClusterToPoint)
+{
+	struct KMeans *kmeans = KMeans_Init(3);
+	struct KM_Point **points = (struct KM_Point **) malloc(3 * sizeof(struct KM_Point));
+	points[0] = KM_Point_Create(2, 2);
+	points[1] = KM_Point_Create(5, 6);
+	points[2] = KM_Point_Create(4, 8);
+	KMeans_SetData(kmeans, points, 3);
+	
+	struct KM_Cluster *cluster1 = (struct KM_Cluster*) KM_List_Get(kmeans->clusters, 0);
+	struct KM_Cluster *cluster2 = (struct KM_Cluster*) KM_List_Get(kmeans->clusters, 1);
+	struct KM_Cluster *cluster3 = (struct KM_Cluster*) KM_List_Get(kmeans->clusters, 2);
+
+	struct KM_Cluster *closest = NULL;
+
+	struct KM_Point p = { 3, 5 };
+	closest = KMeans_FindClosestCluster(kmeans, &p);
+	ASSERT_EQ(closest, cluster2);
+
+	p = { -10, 0 };
+	closest = KMeans_FindClosestCluster(kmeans, &p);
+	ASSERT_EQ(closest, cluster1);
+
+	p = { 99, 80 };
+	closest = KMeans_FindClosestCluster(kmeans, &p);
+	ASSERT_EQ(closest, cluster3);
+}
