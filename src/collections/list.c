@@ -43,6 +43,9 @@ struct KM_List* KM_List_Create()
  */
 void KM_List_Destroy(struct KM_List *container)
 {
+	while (container->size > 0) {
+		KM_List_Remove(container, 0);
+	}
 	free(container);
 }
 
@@ -87,6 +90,8 @@ void* KM_List_Remove(struct KM_List *container, unsigned int position)
 		current->prev->next = current->next;
 	if (current->next)
 		current->next->prev = current->prev;
+	if (current == container->head)
+		container->head = current->next;
 	element = current->element;
 	KM_List_Node_Destroy(current);
 	container->size--;

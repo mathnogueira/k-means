@@ -23,6 +23,7 @@ struct KM_Cluster* KM_Cluster_Create()
 void KM_Cluster_Destroy(struct KM_Cluster *cluster)
 {
 	KM_List_Destroy(cluster->points);
+	KM_Point_Destroy(cluster->centroid);
 	free(cluster);
 }
 
