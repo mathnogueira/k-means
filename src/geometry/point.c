@@ -3,17 +3,24 @@
 #include <math.h>
 
 /**
- * Create a new point.
- *
- * @param x x coordinate.
- * @param y y coordinate.
- * @return pointer to the point.
- */
-struct KM_Point* KM_Point_Create(double x, double y)
+* Create a new point.
+*
+* @param dimensions number of dimensions of the point.
+* @param input coordinates used as input of the new point.
+* @return pointer to the point.
+*/
+struct KM_Point* KM_Point_Create(unsigned int dimensions, void *input)
 {
-	struct KM_Point *point = (struct KM_Point*) malloc(sizeof(struct KM_Point));
-	point->x = x;
-	point->y = y;
+	unsigned int i = 0;
+	struct KM_Point* point = (struct KM_Point*) malloc(sizeof(struct KM_Point));
+	point->dimensions = dimensions;
+	point->coord = (double*) malloc(sizeof(double) * dimensions);
+	if (input != NULL) {
+		double *coordinates = (double*) input;
+		for (; i < dimensions; ++i) {
+			point->coord[i] = coordinates[i];
+		}
+	}
 	return point;
 }
 
@@ -24,6 +31,8 @@ struct KM_Point* KM_Point_Create(double x, double y)
  */
 void KM_Point_Destroy(struct KM_Point *point)
 {
+	if (point != NULL) 
+		free(point->coord);
 	free(point);
 }
 
@@ -36,5 +45,10 @@ void KM_Point_Destroy(struct KM_Point *point)
  */
 double KM_Point_GetDistance(struct KM_Point *p1, struct KM_Point *p2)
 {
-	return sqrt(pow(p1->x - p2->x, 2) + pow(p1->y - p2->y, 2));
+	double sum = 0;
+	unsigned int i = 0;
+	for (; i < p1->dimensions; ++i) {
+		sum += pow(p1->coord[i] - p2->coord[i], 2);
+	}
+	return sqrt(sum);
 }

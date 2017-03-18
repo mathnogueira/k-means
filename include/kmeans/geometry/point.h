@@ -9,18 +9,18 @@ extern "C" {
 	* Struct that represents a point in the algorithm.
 	*/
 	struct KM_Point {
-		double x;
-		double y;
+		double *coord;
+		unsigned int dimensions;
 	};
 
 	/**
 	* Create a new point.
 	*
-	* @param x x coordinate.
-	* @param y y coordinate.
+	* @param dimensions number of dimensions of the point.
+	* @param input coordinates used as input of the new point.
 	* @return pointer to the point.
 	*/
-	struct KM_Point* KM_Point_Create(double x, double y);
+	struct KM_Point* KM_Point_Create(unsigned int dimensions, void *input);
 
 	/**
 	* Destroy a point.

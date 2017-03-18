@@ -34,18 +34,28 @@ void KM_Cluster_Destroy(struct KM_Cluster *cluster)
  */
 void KM_Cluster_UpdateCentroid(struct KM_Cluster *cluster)
 {
-	struct KM_Point *point = NULL;
+	struct KM_Point *point = point = KM_List_Get(cluster->points, 0);;
 	unsigned int currentPoint = 0;
-	double sumX = 0;
-	double sumY = 0;
-	for (; currentPoint < cluster->points->size; currentPoint++) {
-		point = (struct KM_Point*) KM_List_Get(cluster->points, currentPoint);
-		sumX += point->x;
-		sumY += point->y;
+	unsigned int dimensions = point->dimensions;
+	unsigned int currentDimension = 0;
+	double *sum = malloc(sizeof(double) * dimensions);
+
+	for (; currentPoint < cluster->points->size; ++currentPoint) {
+		point = KM_List_Get(cluster->points, currentPoint);
+		for (currentDimension = 0; currentDimension < dimensions; ++currentDimension) {
+			sum[currentDimension] += point->coord[currentDimension];
+		}
 	}
+
+	/* Calculate mean out of sum */
+	for (currentDimension = 0; currentDimension < dimensions; ++currentDimension) {
+		sum[currentDimension] = (sum[currentDimension] / cluster->points->size);
+	}
+
 	if (cluster->centroid != NULL)
 		KM_Point_Destroy(cluster->centroid);
-	cluster->centroid = KM_Point_Create(sumX / cluster->points->size, sumY / cluster->points->size);
+	cluster->centroid = KM_Point_Create(dimensions, sum);
+	free(sum);
 }
 
 /**
