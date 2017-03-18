@@ -68,3 +68,16 @@ void KM_Cluster_AddPoint(struct KM_Cluster *cluster, struct KM_Point *point)
 {
 	KM_List_Add(cluster->points, point);
 }
+
+/**
+ * Clone the cluster, but doesn't clone its points.
+ *
+ * @param cluster cluster to be cloned.
+ * @return pointer to the new cluster.
+ */
+struct KM_Cluster* KM_Cluster_Clone(struct KM_Cluster *cluster)
+{
+	struct KM_Cluster *clone = KM_Cluster_Create();
+	clone->centroid = KM_Point_Clone(cluster->centroid);
+	return clone;
+}

@@ -44,6 +44,14 @@ void KM_Cluster_UpdateCentroid(struct KM_Cluster *cluster);
  */
 void KM_Cluster_AddPoint(struct KM_Cluster *cluster, struct KM_Point *point);
 
+/**
+ * Clone the cluster, but doesn't clone its points.
+ *
+ * @param cluster cluster to be cloned.
+ * @return pointer to the new cluster.
+ */
+struct KM_Cluster* KM_Cluster_Clone(struct KM_Cluster *cluster);
+
 #ifdef __cplusplus
 }
 #endif
