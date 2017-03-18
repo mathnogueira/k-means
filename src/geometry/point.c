@@ -20,6 +20,9 @@ struct KM_Point* KM_Point_Create(unsigned int dimensions, void *input)
 		for (; i < dimensions; ++i) {
 			point->coord[i] = coordinates[i];
 		}
+	} else {
+		for (; i < dimensions; ++i)
+			point->coord[0] = 0;
 	}
 	return point;
 }
@@ -62,4 +65,23 @@ double KM_Point_GetDistance(struct KM_Point *p1, struct KM_Point *p2)
 struct KM_Point* KM_Point_Clone(struct KM_Point *point)
 {
 	return KM_Point_Create(point->dimensions, point->coord);
+}
+
+/**
+* Check if two points are equal.
+*
+* @param point1 first point to be compared.
+* @param point2 second point to be compared.
+* @return true if both are equal, false otherwise.
+*/
+bool KM_Point_Equals(struct KM_Point *point1, struct KM_Point *point2)
+{
+	bool equal = true;
+	unsigned int i = 0;
+	equal &= point1->dimensions == point2->dimensions;
+	while (equal && i < point1->dimensions) {
+		equal &= point1->coord[i] == point2->coord[i];
+		i++;
+	}
+	return equal;
 }

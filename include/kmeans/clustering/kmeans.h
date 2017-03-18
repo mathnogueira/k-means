@@ -2,6 +2,7 @@
 #define KMEANS_CLUSTERING_KMEANS_H
 
 #include <kmeans/collections/list.h>
+#include <kmeans/types.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -59,6 +60,15 @@ void KMeans_Execute(struct KMeans *kmeans, enum KM_Implementation implementation
  * @return closer cluster to the point.
  */
 struct KM_Cluster* KMeans_FindClosestCluster(struct KMeans *kmeans, struct KM_Point *point);
+
+/**
+ * Verify if two set of clusters have converged.
+ *
+ * @param set1 first set of clusters.
+ * @param set2 second set of clusters.
+ * @return true if all centroids of set1 and set2 are the same.
+ */
+bool KMeans_ClustersHaveConverged(struct KMeans *set1, struct KMeans *set2);
 
 /**
  * Destroy a KMeans experiment.

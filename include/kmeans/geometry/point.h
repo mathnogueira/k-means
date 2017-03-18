@@ -1,6 +1,8 @@
 #ifndef KMEANS_GEOMETRY_POINT_H
 #define KMEANS_GEOMETRY_POINT_H
 
+#include <kmeans/types.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -45,6 +47,15 @@ extern "C" {
 	 * @return pointer to the new point.
 	 */
 	struct KM_Point* KM_Point_Clone(struct KM_Point *point);
+
+	/**
+	 * Check if two points are equal.
+	 *
+	 * @param point1 first point to be compared.
+	 * @param point2 second point to be compared.
+	 * @return true if both are equal, false otherwise.
+	 */
+	bool KM_Point_Equals(struct KM_Point *point1, struct KM_Point *point2);
 
 #ifdef __cplusplus
 }

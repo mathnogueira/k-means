@@ -46,3 +46,50 @@ TEST(Point, Clone)
     KM_Point_Destroy(point);
     KM_Point_Destroy(clone);
 }
+
+TEST(Point, EqualDifferentDimensions)
+{
+    struct KM_Point *p1 = KM_Point_Create(3, NULL);
+    struct KM_Point *p2 = KM_Point_Create(2, NULL);
+
+    ASSERT_FALSE(KM_Point_Equals(p1, p2));
+
+    KM_Point_Destroy(p1);
+    KM_Point_Destroy(p2);
+}
+
+TEST(Point, EqualSameDimensions)
+{
+    struct KM_Point *p1 = KM_Point_Create(2, NULL);
+    struct KM_Point *p2 = KM_Point_Create(2, NULL);
+
+    ASSERT_TRUE(KM_Point_Equals(p1, p2));
+
+    KM_Point_Destroy(p1);
+    KM_Point_Destroy(p2);
+}
+
+TEST(Point, EqualSameCoordinates)
+{
+    double input[2] = { 1.35, 5.68 };
+    struct KM_Point *p1 = KM_Point_Create(2, input);
+    struct KM_Point *p2 = KM_Point_Create(2, input);
+
+    ASSERT_TRUE(KM_Point_Equals(p1, p2));
+
+    KM_Point_Destroy(p1);
+    KM_Point_Destroy(p2);
+}
+
+TEST(Point, EqualDifferentCoordinates)
+{
+    double input1[2] = { 1.35, 5.68 };
+    double input2[2] = { 1.38, 4.68 };
+    struct KM_Point *p1 = KM_Point_Create(2, input1);
+    struct KM_Point *p2 = KM_Point_Create(2, input2);
+
+    ASSERT_FALSE(KM_Point_Equals(p1, p2));
+
+    KM_Point_Destroy(p1);
+    KM_Point_Destroy(p2);
+}

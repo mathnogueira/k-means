@@ -1,3 +1,4 @@
+#include <kmeans/clustering/kmeans.h>
 #include <kmeans/clustering/kmeans_sequential.h>
 
 /**
@@ -8,4 +9,5 @@
 void KMeans_Sequential_Execute(struct KMeans *kmeans)
 {
 	/* http://codereview.stackexchange.com/questions/128315/k-means-clustering-algorithm-implementation */
+	
 }

@@ -115,3 +115,25 @@ void KMeans_Destroy(struct KMeans *kmeans)
 	free(kmeans->points);
 	free(kmeans);
 }
+
+/**
+ * Verify if two set of clusters have converged.
+ *
+ * @param set1 first set of clusters.
+ * @param set2 second set of clusters.
+ * @return true if all centroids of set1 and set2 are the same.
+ */
+bool KMeans_ClustersHaveConverged(struct KMeans *set1, struct KMeans *set2)
+{
+	bool converged = true;
+	unsigned int i = 0;
+	struct KM_Cluster *cluster1 = NULL;
+	struct KM_Cluster *cluster2 = NULL;
+	while (converged && i < set1->clusters->size) {
+		cluster1 = KM_List_Get(set1->clusters, i);
+		cluster2 = KM_List_Get(set2->clusters, i);
+		converged &= KM_Point_Equals(cluster1->centroid, cluster2->centroid);
+		++i;
+	}
+	return converged;
+}
