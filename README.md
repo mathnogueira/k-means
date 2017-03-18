@@ -5,8 +5,8 @@
 ## Introduction
 
 Generic euclidean space-based K-means algorithm that can be run as:
-    - single thread
-    - multiple processes
+* single thread
+* multiple processes
 
 ## How to build
 Clone the repository and download all dependencies using the `dependencies.sh` file to do to. It
