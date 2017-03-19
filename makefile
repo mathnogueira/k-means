@@ -60,6 +60,9 @@ output_dirs:
 
 ## Compile all tests
 tests: output_dirs build_tests
+	rm -rf bin/files
+	mkdir bin/files
+	cp -r ./tests/text_files/* bin/files/
 
 build_tests: ${OUTFILES_T}
 	${CPP} $^ -L./libs/gtest -L./bin ${LIBS_T} -o bin/tests

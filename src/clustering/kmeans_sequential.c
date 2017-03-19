@@ -10,11 +10,11 @@
  */
 void KMeans_Sequential_Execute(struct KMeans *kmeans)
 {
+	/* http://codereview.stackexchange.com/questions/128315/k-means-clustering-algorithm-implementation */
 	struct KMeans *previous = NULL;
 	unsigned long i = 0;
 	unsigned long numberPoints = kmeans->numberPoints;
 	unsigned int numberClusters = kmeans->k;
-	/* http://codereview.stackexchange.com/questions/128315/k-means-clustering-algorithm-implementation */
 	do {
 		previous = KMeans_Clone(kmeans);
 		KMeans_ResetPoints(kmeans);
