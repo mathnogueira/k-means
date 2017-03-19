@@ -98,21 +98,21 @@ void* KM_List_Remove(struct KM_List *container, unsigned int position)
 	return element;
 }
 
-	/**
-	 * Retrieve the element at position.
-	 *
-	 * @param container list that stores the element.
-	 * @param position position where the element is inside the list.
-	 * @return element at position specified.
-	 */
-	void* KM_List_Get(struct KM_List *container, unsigned int position)
-	{
-		if (container->size <= position)
-			return NULL;
-		struct KM_List_Node *current = container->head;
-		unsigned int cPos = 0;
-		while (cPos++ < position) {
-			current = current->next;
-		}
-		return current->element;
+/**
+ * Retrieve the element at position.
+ *
+ * @param container list that stores the element.
+ * @param position position where the element is inside the list.
+ * @return element at position specified.
+ */
+void* KM_List_Get(struct KM_List *container, unsigned int position)
+{
+	if (container->size <= position)
+		return NULL;
+	struct KM_List_Node *current = container->head;
+	unsigned int cPos = 0;
+	while (cPos++ < position) {
+		current = current->next;
 	}
+	return current->element;
+}
