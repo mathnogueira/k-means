@@ -52,6 +52,13 @@ void KM_Cluster_AddPoint(struct KM_Cluster *cluster, struct KM_Point *point);
  */
 struct KM_Cluster* KM_Cluster_Clone(struct KM_Cluster *cluster);
 
+/**
+ * Reset all points inside a cluster, but keep its centroid as it is.
+ *
+ * @param cluster cluster to be reseted.
+ */
+void KM_Cluster_ResetPoints(struct KM_Cluster *cluster);
+
 #ifdef __cplusplus
 }
 #endif

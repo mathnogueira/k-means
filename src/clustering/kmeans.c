@@ -139,6 +139,22 @@ bool KMeans_ClustersHaveConverged(struct KMeans *set1, struct KMeans *set2)
 }
 
 /**
+ * Destroy all points inside all clusters, but keep the centroid.
+ *
+ * @param kmeans cluster set to be reseted.
+ */
+void KMeans_ResetPoints(struct KMeans *kmeans)
+{
+	unsigned int numberClusters = kmeans->k;
+	unsigned int i = 0;
+	struct KM_Cluster *cluster = NULL;
+	for (; i < numberClusters; ++i) {
+		cluster = (struct KM_Cluster*) KM_List_Get(kmeans->clusters, i);
+		KM_Cluster_ResetPoints(cluster);
+	}
+}
+
+/**
  * Clone all clusters ignoring its points.
  *
  * @param kmeans kmeans cluster set.

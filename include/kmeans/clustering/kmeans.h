@@ -71,6 +71,13 @@ struct KM_Cluster* KMeans_FindClosestCluster(struct KMeans *kmeans, struct KM_Po
 bool KMeans_ClustersHaveConverged(struct KMeans *set1, struct KMeans *set2);
 
 /**
+ * Destroy all points inside all clusters, but keep the centroid.
+ *
+ * @param kmeans cluster set to be reseted.
+ */
+void KMeans_ResetPoints(struct KMeans *kmeans);
+
+/**
  * Clone all clusters ignoring its points.
  *
  * @param kmeans kmeans cluster set.

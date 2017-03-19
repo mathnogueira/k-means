@@ -44,4 +44,16 @@ TEST(Cluster, Clone)
 	ASSERT_DOUBLE_EQ(clone->centroid->coord[1], cluster->centroid->coord[1]);
 	ASSERT_FALSE(clone->points == cluster->points);
 	ASSERT_FALSE(clone->centroid == cluster->centroid);
+	KM_Cluster_Destroy(cluster);
+	KM_Cluster_Destroy(clone);
+}
+
+TEST(Cluster, ResetPoints)
+{
+	struct KM_Cluster *cluster = getTestCluster();
+	ASSERT_EQ(cluster->points->size, 3);
+	KM_Cluster_ResetPoints(cluster);
+	ASSERT_EQ(cluster->points->size, 0);
+	KM_Cluster_Destroy(cluster);
+
 }

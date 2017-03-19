@@ -81,3 +81,17 @@ struct KM_Cluster* KM_Cluster_Clone(struct KM_Cluster *cluster)
 	clone->centroid = KM_Point_Clone(cluster->centroid);
 	return clone;
 }
+
+/**
+ * Reset all points inside a cluster, but keep its centroid as it is.
+ *
+ * @param cluster cluster to be reseted.
+ */
+void KM_Cluster_ResetPoints(struct KM_Cluster *cluster)
+{
+	struct KM_Point *point = NULL;
+	while (cluster->points->size > 0) {
+		point = KM_List_Remove(cluster->points, 0);
+		KM_Point_Destroy(point);
+	}
+}
