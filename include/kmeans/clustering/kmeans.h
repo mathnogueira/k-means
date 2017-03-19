@@ -71,6 +71,14 @@ struct KM_Cluster* KMeans_FindClosestCluster(struct KMeans *kmeans, struct KM_Po
 bool KMeans_ClustersHaveConverged(struct KMeans *set1, struct KMeans *set2);
 
 /**
+ * Clone all clusters ignoring its points.
+ *
+ * @param kmeans kmeans cluster set.
+ * @return pointer to the clone kmeans set.
+ */
+struct KMeans* KMeans_Clone(struct KMeans *kmeans);
+
+/**
  * Destroy a KMeans experiment.
  *
  * @param kmeans pointer to the Kmeans object.

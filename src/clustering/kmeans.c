@@ -137,3 +137,21 @@ bool KMeans_ClustersHaveConverged(struct KMeans *set1, struct KMeans *set2)
 	}
 	return converged;
 }
+
+/**
+ * Clone all clusters ignoring its points.
+ *
+ * @param kmeans kmeans cluster set.
+ * @return pointer to the clone kmeans set.
+ */
+struct KMeans* KMeans_Clone(struct KMeans *kmeans)
+{
+	struct KMeans *clone = KMeans_Init(kmeans->k);
+	unsigned int numberClusters = kmeans->clusters->size;
+	unsigned int i = 0;
+	for (; i < numberClusters; ++i) {
+		struct KM_Cluster *cluster = (struct KM_Cluster*) KM_List_Get(kmeans->clusters, i);
+		KM_List_Add(clone->clusters, KM_Cluster_Clone(cluster));
+	}
+	return clone;
+}
