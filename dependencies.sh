@@ -10,7 +10,8 @@ cd .dependencies/gtest
 
 ## Only downloads if file is not found
 if [ ! -f release-1.8.0.tar.gz ]; then
-	wget https://github.com/google/googletest/archive/release-1.8.0.tar.gz
+	#wget https://github.com/google/googletest/archive/release-1.8.0.tar.gz
+	curl -L https://github.com/google/googletest/archive/release-1.8.0.tar.gz > release-1.8.0.tar.gz
 fi
 ## Extract it
 tar -xvf release-1.8.0.tar.gz
