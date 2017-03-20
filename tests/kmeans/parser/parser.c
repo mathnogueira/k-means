@@ -16,7 +16,9 @@ TEST(Parser, ParseIrisFile)
     struct KM_FileReader *reader = KM_FileReader_Open("bin/files/iris.data");
     ASSERT_FALSE(reader == NULL);
     struct KM_Point *output = NULL;
-    KM_Parser_Parse(reader, &output);
+    unsigned long points = 0;
+    KM_Parser_Parse(reader, &output, &points);
+    ASSERT_EQ(points, 149);
     ASSERT_DOUBLE_EQ(output[0].coord[0], 5.1);
     free(output);
     // KM_FileReader_Close(reader);

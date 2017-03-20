@@ -13,8 +13,9 @@ extern "C" {
  *
  * @param file file to be parsed.
  * @param output array that will be used as output of the parser.
+ * @param numberPoints number of points that were parsed.
  */
-void KM_Parser_Parse(struct KM_FileReader *file, struct KM_Point **output);
+void KM_Parser_Parse(struct KM_FileReader *file, struct KM_Point **output, unsigned long *numberPoints);
 
 struct KM_Point* GetPointFromString(char *string);
 

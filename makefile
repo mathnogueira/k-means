@@ -11,7 +11,7 @@ rwildcard=$(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst 
 CC				= gcc -ansi
 CPP				= g++ -lpthread
 CFLAGS			= -fPIC -O0 -ggdb -Wall
-LIBS			= 
+LIBS			= -l:libkmeans.a -lm
 LIBS_T			= -l:libgtest_main.a -l:libgtest.a -l:libkmeans.a -lpthread
 
 ## Project configuration
@@ -37,12 +37,14 @@ OUTFILES_T		=  $(subst .${SRCEXT},.${OBJEXT}, ${}$(subst ${TESTS}, ${OUTPUT_T}, 
 
 ## Create the kmeans shared library to be used by external
 ## applications.
-all: output_dirs libkmeans.a
+all: output_dirs libkmeans.a kmeans
 
 ## Rule for building the library from source
 libkmeans.a: ${OUTFILES}
-	@mkdir -p bin
 	ar rcs bin/$@ $^
+
+kmeans: src/main.cc
+	${CC} $^ -o bin/$@ -I${INCLUDE} ${CFLAGS} -L./bin ${LIBS}
 
 ## Rule for compiling each .c file.
 ${OUTPUT}/%.o: ${SOURCE}/%.c
@@ -57,6 +59,7 @@ output_dirs:
 	@mkdir -p ${OUTPUT}/tests
 	@mkdir -p ${OUTPUT}/tests/kmeans
 	mkdir -p ${FOLDERS_T}
+	@mkdir -p bin
 
 ## Compile all tests
 tests: output_dirs build_tests

@@ -8,7 +8,6 @@ struct KM_Point* GetPointFromString(char *string)
 {
     char *pch = strtok(string, ",");
     struct KM_List *list = KM_List_Create();
-    unsigned int dbg = 0;
     while (pch != NULL) {
         double *coord = malloc(sizeof(double));
         sscanf(pch, "%lf", coord);
@@ -19,7 +18,6 @@ struct KM_Point* GetPointFromString(char *string)
     unsigned long size = (list->size)-1;
 
     double *classificationPtr = KM_List_Remove(list, size);
-    double classification = *classificationPtr;
     free(classificationPtr);
     KM_LIST_TOARRAY(list, array, double);
     while (list->size > 0) {
@@ -34,8 +32,9 @@ struct KM_Point* GetPointFromString(char *string)
  *
  * @param file file to be parsed.
  * @param output array that will be used as output of the parser.
+ * @param numberPoints number of points that were parsed.
  */
-void KM_Parser_Parse(struct KM_FileReader *file, struct KM_Point **output)
+void KM_Parser_Parse(struct KM_FileReader *file, struct KM_Point **output, unsigned long *numberPoints)
 {
     char line[4096];
     struct KM_List *list = KM_List_Create();
@@ -45,6 +44,7 @@ void KM_Parser_Parse(struct KM_FileReader *file, struct KM_Point **output)
     }
 
     *output = (struct KM_Point*) malloc(sizeof(struct KM_Point) * list->size);
+    *numberPoints = list->size;
     do {															
 		unsigned int size = (list)->size;						
 		unsigned int i = 0;											
