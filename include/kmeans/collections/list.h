@@ -1,6 +1,8 @@
 #ifndef KMEANS_COLLECTIONS_LIST_H
 #define KMEANS_COLLECTIONS_LIST_H
 
+#include <stdlib.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -67,7 +69,7 @@ void* KM_List_Get(struct KM_List *container, unsigned int position);
 	do {															\
 		unsigned int size = (CONTAINER)->size;						\
 		unsigned int i = 0;											\
-		OUTPUT = (TYPE*) malloc(sizeof(TYPE) * (CONTAINER)->size);	\
+		OUTPUT = (TYPE*) malloc(sizeof(TYPE) * size);				\
 		for (; i < size; ++i) {										\
 			OUTPUT[i] = *((TYPE*) KM_List_Get(CONTAINER, i));		\
 		}															\

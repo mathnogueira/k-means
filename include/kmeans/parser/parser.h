@@ -16,6 +16,8 @@ extern "C" {
  */
 void KM_Parser_Parse(struct KM_FileReader *file, struct KM_Point **output);
 
+struct KM_Point* GetPointFromString(char *string);
+
 #ifdef __cplusplus
 }
 #endif
