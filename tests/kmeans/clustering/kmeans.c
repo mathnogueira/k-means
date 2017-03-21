@@ -6,16 +6,20 @@
 struct KMeans* getTestKMeans()
 {
 	struct KMeans *kmeans = KMeans_Init(3);
-	struct KM_Point **points = (struct KM_Point **) malloc(3 * sizeof(struct KM_Point));
-	points[0] = KM_Point_Create(2, NULL);
-	points[0]->coord[0] = 2;
-	points[0]->coord[1] = 2;
-	points[1] = KM_Point_Create(2, NULL);
-	points[1]->coord[0] = 5;
-	points[1]->coord[1] = 6;
-	points[2] = KM_Point_Create(2, NULL);
-	points[2]->coord[0] = 4;
-	points[2]->coord[1] = 8;
+	struct KM_List *points = KM_List_Create();
+	struct KM_Point *point = NULL;
+	point = KM_Point_Create(2, NULL);
+	point->coord[0] = 2;
+	point->coord[1] = 2;
+	KM_List_Add(points, point);
+	point = KM_Point_Create(2, NULL);
+	point->coord[0] = 5;
+	point->coord[1] = 6;
+	KM_List_Add(points, point);
+	point = KM_Point_Create(2, NULL);
+	point->coord[0] = 4;
+	point->coord[1] = 8;
+	KM_List_Add(points, point);
 	KMeans_SetData(kmeans, points, 3);
 	return kmeans;
 }
@@ -53,16 +57,20 @@ TEST(KMeans, CreateClusters)
 TEST(KMeans, GetClosestClusterToPoint)
 {
 	struct KMeans *kmeans = KMeans_Init(3);
-	struct KM_Point **points = (struct KM_Point **) malloc(3 * sizeof(struct KM_Point));
-	points[0] = KM_Point_Create(2, NULL);
-	points[0]->coord[0] = 2;
-	points[0]->coord[1] = 2;
-	points[1] = KM_Point_Create(2, NULL);
-	points[1]->coord[0] = 5;
-	points[1]->coord[1] = 6;
-	points[2] = KM_Point_Create(2, NULL);
-	points[2]->coord[0] = 4;
-	points[2]->coord[1] = 8;
+	struct KM_List *points = KM_List_Create();
+	struct KM_Point *point = NULL;
+	point = KM_Point_Create(2, NULL);
+	point->coord[0] = 2;
+	point->coord[1] = 2;
+	KM_List_Add(points, point);
+	point = KM_Point_Create(2, NULL);
+	point->coord[0] = 5;
+	point->coord[1] = 6;
+	KM_List_Add(points, point);
+	point = KM_Point_Create(2, NULL);
+	point->coord[0] = 4;
+	point->coord[1] = 8;
+	KM_List_Add(points, point);
 	KMeans_SetData(kmeans, points, 3);
 	
 	struct KM_Cluster *cluster1 = (struct KM_Cluster*) KM_List_Get(kmeans->clusters, 0);

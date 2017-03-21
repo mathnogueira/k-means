@@ -25,24 +25,27 @@ struct KMeans* KMeans_Init(unsigned int k)
  * Define what data will be clustered by the algorithm.
  *
  * @param kmeans kmeans structure.
- * @param points array of points to be clustered.
- * @param numberPoints number of points in the array.
+ * @param points list of points to be clustered.
  */
-void KMeans_SetData(struct KMeans *kmeans, struct KM_Point **points, unsigned long numberPoints)
+void KMeans_SetData(struct KMeans *kmeans, struct KM_List *points)
 {
-	unsigned int i = 0;
+	unsigned long i = 0;
 	struct KM_Cluster *cluster = NULL;
 	struct KM_Point *point = NULL;
 	/* Use the K first points as centroids */
 	for (; i < kmeans->k; ++i) {
 		cluster = KM_Cluster_Create();
-		point = points[i];
+		point = KM_List_Get(points, i);
 		KM_Cluster_AddPoint(cluster, point);
 		KM_Cluster_UpdateCentroid(cluster);
 		KM_List_Add(kmeans->clusters, cluster);
 	}
-	kmeans->points = points;
-	kmeans->numberPoints = numberPoints;
+	struct KM_Point **pointsArray = (struct KM_Point**) malloc(sizeof(struct KM_Point*) * points->size);
+	for (i = 0; i < points->size; ++i) {
+		pointsArray[i] = (struct KM_Point*) KM_List_Get(points, i);
+	}
+	kmeans->points = pointsArray;
+	kmeans->numberPoints = points->size;
 }
 
 /**

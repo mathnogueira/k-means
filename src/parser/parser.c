@@ -32,25 +32,12 @@ struct KM_Point* GetPointFromString(char *string)
  *
  * @param file file to be parsed.
  * @param output array that will be used as output of the parser.
- * @param numberPoints number of points that were parsed.
  */
-void KM_Parser_Parse(struct KM_FileReader *file, struct KM_Point **output, unsigned long *numberPoints)
+void KM_Parser_Parse(struct KM_FileReader *file, struct KM_List *output)
 {
     char line[4096];
-    struct KM_List *list = KM_List_Create();
     while (KM_FileReader_ReadLine(line, file)) {
         struct KM_Point *point = GetPointFromString(line);
-        KM_List_Add(list, point);
+        KM_List_Add(output, point);
     }
-
-    *output = (struct KM_Point*) malloc(sizeof(struct KM_Point) * list->size);
-    *numberPoints = list->size;
-    do {															
-		unsigned int size = (list)->size;						
-		unsigned int i = 0;											
-		*output = (struct KM_Point*) malloc(sizeof(struct KM_Point) * size);				
-		for (; i < size; ++i) {										
-			(*output)[i] = *((struct KM_Point*) KM_List_Get(list, i));		
-		}															
-	} while (0);
 }

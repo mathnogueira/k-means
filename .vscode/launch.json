@@ -3,11 +3,12 @@
 	"configurations": [
 		
 		{
-			"name": "Debug",
+			"name": "KMeans",
 			"type": "gdb",
 			"request": "launch",
-			"target": "./bin/tests",
-			"cwd": "${workspaceRoot}"
+			"target": "./bin/kmeans",
+			"cwd": "${workspaceRoot}",
+			"arguments": "bin/files/iris.data 3"
 		}
 	]
 }

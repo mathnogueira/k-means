@@ -34,14 +34,14 @@ void KM_Cluster_Destroy(struct KM_Cluster *cluster)
  */
 void KM_Cluster_UpdateCentroid(struct KM_Cluster *cluster)
 {
-	struct KM_Point *point = point = KM_List_Get(cluster->points, 0);;
+	struct KM_Point *point = point = KM_List_Get(cluster->points, 0);
 	unsigned int currentPoint = 0;
 	unsigned int dimensions = point->dimensions;
 	unsigned int currentDimension = 0;
-	double *sum = malloc(sizeof(double) * dimensions);
+	double *sum = (double*) malloc(sizeof(double) * dimensions);
 
 	for (; currentPoint < cluster->points->size; ++currentPoint) {
-		point = KM_List_Get(cluster->points, currentPoint);
+		point = (struct KM_Point*) KM_List_Get(cluster->points, currentPoint);
 		for (currentDimension = 0; currentDimension < dimensions; ++currentDimension) {
 			sum[currentDimension] += point->coord[currentDimension];
 		}
@@ -91,7 +91,6 @@ void KM_Cluster_ResetPoints(struct KM_Cluster *cluster)
 {
 	struct KM_Point *point = NULL;
 	while (cluster->points->size > 0) {
-		point = KM_List_Remove(cluster->points, 0);
-		KM_Point_Destroy(point);
+		KM_List_Remove(cluster->points, 0);
 	}
 }

@@ -15,11 +15,10 @@ TEST(Parser, ParseIrisFile)
 {
     struct KM_FileReader *reader = KM_FileReader_Open("bin/files/iris.data");
     ASSERT_FALSE(reader == NULL);
-    struct KM_Point *output = NULL;
-    unsigned long points = 0;
-    KM_Parser_Parse(reader, &output, &points);
-    ASSERT_EQ(points, 149);
-    ASSERT_DOUBLE_EQ(output[0].coord[0], 5.1);
+    struct KM_List *output = KM_List_Create();
+    KM_Parser_Parse(reader, output);
+    ASSERT_EQ(output->size, 149);
+    struct KM_Point *p = (struct KM_Point*) KM_List_Get(output, 0);
+    ASSERT_DOUBLE_EQ(p->coord[0], 5.1);
     free(output);
-    // KM_FileReader_Close(reader);
 }

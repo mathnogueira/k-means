@@ -39,10 +39,10 @@ struct KMeans* KMeans_Init(unsigned int k);
 /**
  * Define what data will be clustered by the algorithm.
  *
- * @param points array of points to be clustered.
- * @param numberPoints number of points in the array.
+ * @param kmeans kmeans set of clusters.
+ * @param points list of points to be clustered.
  */
-void KMeans_SetData(struct KMeans *kmeans, struct KM_Point **points, unsigned long numberPoints);
+void KMeans_SetData(struct KMeans *kmeans, struct KM_List *points);
 
 /**
  * Execute the algorithm with the data specified.

@@ -2,6 +2,7 @@
 #define KMEANS_GEOMETRY_POINT_H
 
 #include <kmeans/types.h>
+#include <stdio.h>
 
 #ifdef __cplusplus
 extern "C" {

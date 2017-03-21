@@ -2,18 +2,22 @@
 #include <kmeans/parser/reader.h>
 #include <kmeans/geometry/point.h>
 #include <kmeans/clustering/kmeans.h>
+#include <kmeans/collections/list.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 void StartExecution(const char *filename, unsigned long k)
 {
     struct KM_FileReader *reader = KM_FileReader_Open(filename);
-    struct KM_Point *output = NULL;
-    unsigned long numberPoints = 0;
-    KM_Parser_Parse(reader, &output, &numberPoints);
+    struct KM_List *output = KM_List_Create();
+    KM_Parser_Parse(reader, output);
     struct KMeans *kmeans = KMeans_Init(k);
-    KMeans_SetData(kmeans, &output, numberPoints);
+    KMeans_SetData(kmeans, output);
     KMeans_Execute(kmeans, SEQUENTIAL);
+    // for (i = 0; i < numberPoints; ++i) {
+    //     printf("Point %lu: ", i+1);
+    //     KM_Point_Print(&output[i]);
+    // }
 }
 
 int main(int argc, char **argv)
