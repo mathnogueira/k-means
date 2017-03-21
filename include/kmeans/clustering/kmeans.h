@@ -13,9 +13,9 @@ extern "C" {
  * for the Kmeans algorithm.
  */
 enum KM_Implementation {
-	MPI,
+	SEQUENTIAL = 1,
 	OPENMP,
-	SEQUENTIAL,
+	MPI,
 };
 
 /**
@@ -84,6 +84,8 @@ void KMeans_ResetPoints(struct KMeans *kmeans);
  * @return pointer to the clone kmeans set.
  */
 struct KMeans* KMeans_Clone(struct KMeans *kmeans);
+
+void KMeans_PrintResult(struct KMeans *kmeans);
 
 /**
  * Destroy a KMeans experiment.

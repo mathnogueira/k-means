@@ -10,9 +10,9 @@ rwildcard=$(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst 
 ## Compiler configuration
 CC				= gcc -ansi
 CPP				= g++ -lpthread
-CFLAGS			= -fPIC -O0 -ggdb -Wall
+CFLAGS			= -fPIC -O0 -ggdb -Wall -fopenmp
 LIBS			= -l:libkmeans.a -lm
-LIBS_T			= -l:libgtest_main.a -l:libgtest.a -l:libkmeans.a -lpthread
+LIBS_T			= -l:libgtest_main.a -l:libgtest.a -l:libkmeans.a -lpthread -fopenmp
 
 ## Project configuration
 INCLUDE			= ./include

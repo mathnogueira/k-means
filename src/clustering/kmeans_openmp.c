@@ -1,5 +1,5 @@
 #include <kmeans/clustering/kmeans.h>
-#include <kmeans/clustering/kmeans_sequential.h>
+#include <kmeans/clustering/kmeans_openmp.h>
 #include <kmeans/clustering/cluster.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,19 +10,19 @@
  *
  * @param kmeans kmeans data structure.
  */
-void KMeans_Sequential_Execute(struct KMeans *kmeans)
+void KMeans_OpenMP_Execute(struct KMeans *kmeans)
 {
-	printf("RUNNING SEQUENTIAL\n");
+	printf("RUNNING OPENMP\n");
 	/* http://codereview.stackexchange.com/questions/128315/k-means-clustering-algorithm-implementation */
 	struct KMeans *previous = NULL;
 	unsigned long i = 0;
 	unsigned long numberPoints = kmeans->numberPoints;
 	unsigned int numberClusters = kmeans->k;
 	struct KM_Point **points = kmeans->points;
-	unsigned long it = 0;
 	do {
 		previous = KMeans_Clone(kmeans);
 		KMeans_ResetPoints(kmeans);
+		#pragma omp parallel for num_threads(omp_get_num_procs())
 		for (i = 0; i < numberPoints; ++i) {
 			struct KM_Point *point = points[i];
 			struct KM_Cluster *closestCluster = KMeans_FindClosestCluster(kmeans, point);
@@ -34,7 +34,5 @@ void KMeans_Sequential_Execute(struct KMeans *kmeans)
 			if (cluster->points->size > 0)
 				KM_Cluster_UpdateCentroid(cluster);
 		}
-		it++;
 	} while (!KMeans_ClustersHaveConverged(kmeans, previous));
-	printf("%lu iterations\n", it);
 }

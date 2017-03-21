@@ -9,22 +9,24 @@ struct KM_Point* GetPointFromString(char *string)
     char *pch = strtok(string, ",");
     struct KM_List *list = KM_List_Create();
     while (pch != NULL) {
-        double *coord = malloc(sizeof(double));
+        double *coord = (double*) malloc(sizeof(double));
         sscanf(pch, "%lf", coord);
         KM_List_Add(list, coord);
         pch = strtok(NULL, ",");
     }
     double *array = NULL;
     unsigned long size = (list->size)-1;
+    double *classificationPtr = (double*) KM_List_Remove(list, size);
 
-    double *classificationPtr = KM_List_Remove(list, size);
-    free(classificationPtr);
     KM_LIST_TOARRAY(list, array, double);
     while (list->size > 0) {
         free(KM_List_Remove(list, 0));
     }
     KM_List_Destroy(list);
-    return KM_Point_Create(size, array);
+    struct KM_Point *point = KM_Point_Create(size, array);
+    point->classification = *classificationPtr;
+    free(classificationPtr);
+    return point;
 }
 
 /**

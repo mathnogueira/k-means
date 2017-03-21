@@ -89,7 +89,6 @@ struct KM_Cluster* KM_Cluster_Clone(struct KM_Cluster *cluster)
  */
 void KM_Cluster_ResetPoints(struct KM_Cluster *cluster)
 {
-	struct KM_Point *point = NULL;
 	while (cluster->points->size > 0) {
 		KM_List_Remove(cluster->points, 0);
 	}

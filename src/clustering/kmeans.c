@@ -4,6 +4,7 @@
 #include <kmeans/clustering/kmeans_openmp.h>
 #include <kmeans/clustering/kmeans_sequential.h>
 #include <stdlib.h>
+#include <time.h>
 
 /**
  * Initialize a new KMeans experiment.
@@ -29,13 +30,16 @@ struct KMeans* KMeans_Init(unsigned int k)
  */
 void KMeans_SetData(struct KMeans *kmeans, struct KM_List *points)
 {
+	srand(time(NULL));
 	unsigned long i = 0;
 	struct KM_Cluster *cluster = NULL;
 	struct KM_Point *point = NULL;
+	int random = 0;
 	/* Use the K first points as centroids */
 	for (; i < kmeans->k; ++i) {
 		cluster = KM_Cluster_Create();
-		point = KM_List_Get(points, i);
+		random = rand() % points->size;
+		point = KM_List_Get(points, random);
 		KM_Cluster_AddPoint(cluster, point);
 		KM_Cluster_UpdateCentroid(cluster);
 		KM_List_Add(kmeans->clusters, cluster);
@@ -61,10 +65,10 @@ void KMeans_Execute(struct KMeans *kmeans, enum KM_Implementation implementation
 	switch (implementation) {
 		/*case MPI:
 			KMeans_MPI_Execute(kmeans);
-			break;
-		case OPENMP:
-			// KMeans_OpenMP_Execute(kmeans);
 			break;*/
+		case OPENMP:
+			KMeans_OpenMP_Execute(kmeans);
+			break;
 		case SEQUENTIAL:
 			KMeans_Sequential_Execute(kmeans);
 			break;
@@ -82,7 +86,7 @@ void KMeans_Execute(struct KMeans *kmeans, enum KM_Implementation implementation
  */
 struct KM_Cluster* KMeans_FindClosestCluster(struct KMeans *kmeans, struct KM_Point *point)
 {
-	double smallestDistance = 99999;
+	double smallestDistance = -1;
 	struct KM_Cluster *closestCluster = NULL;
 	struct KM_Cluster *currentCluster = NULL;
 	double currentDistance = 0;
@@ -90,7 +94,7 @@ struct KM_Cluster* KMeans_FindClosestCluster(struct KMeans *kmeans, struct KM_Po
 	for (; i < kmeans->clusters->size; ++i) {
 		currentCluster = KM_List_Get(kmeans->clusters, i);
 		currentDistance = KM_Point_GetDistance(currentCluster->centroid, point);
-		if (currentDistance < smallestDistance) {
+		if (currentDistance < smallestDistance || smallestDistance < 0) {
 			smallestDistance = currentDistance;
 			closestCluster = currentCluster;
 		}
@@ -138,6 +142,11 @@ bool KMeans_ClustersHaveConverged(struct KMeans *set1, struct KMeans *set2)
 		converged &= KM_Point_Equals(cluster1->centroid, cluster2->centroid);
 		++i;
 	}
+	for (i = 0; i < set1->clusters->size; ++i) {
+		cluster1 = KM_List_Get(set1->clusters, i);
+		cluster2 = KM_List_Get(set2->clusters, i);
+		printf("Cluster %d: Distance from centroid compared to last iteration: %.2f\n", i+1, KM_Point_GetDistance(cluster1->centroid, cluster2->centroid));
+	}
 	return converged;
 }
 
@@ -173,4 +182,22 @@ struct KMeans* KMeans_Clone(struct KMeans *kmeans)
 		KM_List_Add(clone->clusters, KM_Cluster_Clone(cluster));
 	}
 	return clone;
+}
+
+void KMeans_PrintResult(struct KMeans *kmeans)
+{
+	unsigned int c = 0;
+	unsigned int p = 0;
+	struct KM_Cluster *cluster = NULL;
+	struct KM_Point *point = NULL;
+	for (; c < kmeans->clusters->size; ++c) {
+		cluster = KM_List_Get(kmeans->clusters, c);
+		printf("==============================\n");
+		printf("%d points in cluster %d:\n", cluster->points->size, c+1);
+		for (p = 0; p < cluster->points->size; ++p) {
+			point = KM_List_Get(cluster->points, p);
+			KM_Point_Print(point);
+		}
+	}
+
 }

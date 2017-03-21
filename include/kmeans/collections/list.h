@@ -2,6 +2,7 @@
 #define KMEANS_COLLECTIONS_LIST_H
 
 #include <stdlib.h>
+#include <omp.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -15,6 +16,7 @@ struct KM_List_Node;
 struct KM_List {
 	struct KM_List_Node *head;
 	unsigned int size;
+	omp_lock_t writeLock;
 };
 
 /**

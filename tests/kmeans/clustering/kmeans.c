@@ -20,7 +20,7 @@ struct KMeans* getTestKMeans()
 	point->coord[0] = 4;
 	point->coord[1] = 8;
 	KM_List_Add(points, point);
-	KMeans_SetData(kmeans, points, 3);
+	KMeans_SetData(kmeans, points);
 	return kmeans;
 }
 
@@ -71,7 +71,7 @@ TEST(KMeans, GetClosestClusterToPoint)
 	point->coord[0] = 4;
 	point->coord[1] = 8;
 	KM_List_Add(points, point);
-	KMeans_SetData(kmeans, points, 3);
+	KMeans_SetData(kmeans, points);
 	
 	struct KM_Cluster *cluster1 = (struct KM_Cluster*) KM_List_Get(kmeans->clusters, 0);
 	struct KM_Cluster *cluster2 = (struct KM_Cluster*) KM_List_Get(kmeans->clusters, 1);

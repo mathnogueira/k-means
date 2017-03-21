@@ -1,5 +1,6 @@
 #include <kmeans/collections/list.h>
 #include <stdlib.h>
+#include <omp.h>
 
 /* Node declaration. */
 struct KM_List_Node {
@@ -32,6 +33,7 @@ struct KM_List* KM_List_Create()
 	struct KM_List *list = (struct KM_List*) malloc(sizeof(struct KM_List));
 	list->head = NULL;
 	list->size = 0;
+	omp_init_lock(&list->writeLock);
 	return list;
 }
 
@@ -57,6 +59,7 @@ void KM_List_Destroy(struct KM_List *container)
  */
 void KM_List_Add(struct KM_List *container, void *value)
 {
+	omp_set_lock(&(container->writeLock));
 	/* Sorry Linus, I failed you =/ */
 	struct KM_List_Node *node = KM_List_Node_Create(value, NULL);
 	if (container->head == NULL) {
@@ -68,6 +71,7 @@ void KM_List_Add(struct KM_List *container, void *value)
 		node->prev = current;
 	}
 	container->size++;
+	omp_unset_lock(&(container->writeLock));
 }
 
 /**
@@ -78,6 +82,7 @@ void KM_List_Add(struct KM_List *container, void *value)
  */
 void* KM_List_Remove(struct KM_List *container, unsigned int position)
 {
+	omp_set_lock(&(container->writeLock));
 	if (container->size <= position)
 		return NULL;
 	struct KM_List_Node *current = container->head;
@@ -95,6 +100,7 @@ void* KM_List_Remove(struct KM_List *container, unsigned int position)
 	element = current->element;
 	KM_List_Node_Destroy(current);
 	container->size--;
+	omp_unset_lock(&(container->writeLock));
 	return element;
 }
 

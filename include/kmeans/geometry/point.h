@@ -14,6 +14,7 @@ extern "C" {
 	struct KM_Point {
 		double *coord;
 		unsigned int dimensions;
+		double classification;
 	};
 
 	/**
@@ -57,6 +58,8 @@ extern "C" {
 	 * @return true if both are equal, false otherwise.
 	 */
 	bool KM_Point_Equals(struct KM_Point *point1, struct KM_Point *point2);
+
+	void KM_Point_Print(struct KM_Point *point);
 
 #ifdef __cplusplus
 }

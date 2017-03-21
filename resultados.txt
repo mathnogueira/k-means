@@ -1,0 +1,23 @@
+4 clusters:
+278 milisegundos --> Sequencial com 452 registros com 279 atributos cada.
+305 milisegundos --> OpenMP com 452 registros com 279 atributos cada.
+
+Resultado: Algoritmo com OpenMP executa em 109% do tempo do sequencial.
+
+4 clusters:
+
+1277 milisegundos --> OpenMP com 4177 registros com 8 atributos cada.
+1310 milisegundos --> Sequencial com 4177 registros com 8 atributos cada.
+
+Resultado: Algoritmo com OpenMP executa em 97% do tempo do sequencial.
+
+
+70442 milisegundos --> OpenMP com 25062 registros com 8 atributos cada.
+136190 milisegundos --> Sequencial com 25062 registros com 8 atributos cada.
+
+Resultado: Algoritmo com OpenMP executa em 51.7% do tempo do sequencial.
+
+245630 milisegundos --> OpenMP com 50124 registros com 8 atributos cada.
+413014 milisegundos --> Sequencial com 50124 registros com 8 atributos cada.
+
+Resultado: Algoritmo com OpenMP executa em 59.4% do tempo do sequencial.
